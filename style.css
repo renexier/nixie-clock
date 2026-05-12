@@ -32,37 +32,100 @@ body{
 
     position:relative;
 
+    overflow:hidden;
+
     background:
     radial-gradient(
     circle at center,
-    #512008 0%,
-    #1b0902 55%,
-    #070201 100%
+    #141414 0%,
+    #090909 45%,
+    #030303 100%
     );
 
     font-family:Arial,sans-serif;
 
-    perspective:1400px;
+    perspective:1800px;
 
-    cursor:default;
+    animation:
+    galaxyShift 40s ease-in-out infinite alternate;
 }
 
-body::after{
+@keyframes galaxyShift{
 
-    content:"";
+    0%{
+
+        background:
+        radial-gradient(
+        circle at center,
+        #161616 0%,
+        #090909 45%,
+        #020202 100%
+        );
+    }
+
+    25%{
+
+        background:
+        radial-gradient(
+        circle at center,
+        #17110f 0%,
+        #090707 45%,
+        #020202 100%
+        );
+    }
+
+    50%{
+
+        background:
+        radial-gradient(
+        circle at center,
+        #11111a 0%,
+        #07070d 45%,
+        #020202 100%
+        );
+    }
+
+    75%{
+
+        background:
+        radial-gradient(
+        circle at center,
+        #0d1418 0%,
+        #05080b 45%,
+        #020202 100%
+        );
+    }
+
+    100%{
+
+        background:
+        radial-gradient(
+        circle at center,
+        #161616 0%,
+        #090909 45%,
+        #020202 100%
+        );
+    }
+}
+
+.bg-noise{
 
     position:absolute;
 
     inset:0;
 
-    pointer-events:none;
+    opacity:0.025;
 
-    background:
-    radial-gradient(
-    circle at top,
-    rgba(255,120,0,0.05),
-    transparent 45%
+    background-image:
+    repeating-radial-gradient(
+    circle at center,
+    white 0px,
+    transparent 1px
     );
+
+    background-size:4px 4px;
+
+    pointer-events:none;
 }
 
 .ambient{
@@ -76,11 +139,11 @@ body::after{
     background:
     radial-gradient(
     circle at var(--x,50%) var(--y,50%),
-    rgba(255,140,0,0.14),
-    transparent 32%
+    rgba(255,140,0,0.045),
+    transparent 24%
     );
 
-    transition:0.12s;
+    transition:0.25s;
 }
 
 .clock-wrap{
@@ -97,27 +160,33 @@ body::after{
 
     gap:16px;
 
-    padding:
-    42px 42px;
+    padding:42px;
 
-    border-radius:30px;
+    border-radius:34px;
+
+    overflow:hidden;
 
     background:
     linear-gradient(
     145deg,
-    rgba(120,55,15,0.42),
-    rgba(35,12,3,0.82)
+    rgba(255,255,255,0.04),
+    rgba(255,255,255,0.01)
     );
 
     border:
     1px solid rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(20px);
+    backdrop-filter:
+    blur(24px)
+    saturate(180%);
 
     box-shadow:
-    0 30px 90px rgba(0,0,0,0.75),
-    inset 0 1px 2px rgba(255,255,255,0.08),
-    inset 0 -5px 18px rgba(0,0,0,0.4);
+    inset 0 0 40px rgba(255,255,255,0.03),
+    0 0 90px rgba(255,120,0,0.08),
+    0 0 180px rgba(255,120,0,0.04);
+
+    transition:
+    transform 0.15s ease;
 }
 
 .clock::before{
@@ -126,20 +195,27 @@ body::after{
 
     position:absolute;
 
-    inset:0;
+    top:-50%;
 
-    border-radius:30px;
+    left:-30%;
+
+    width:40%;
+
+    height:220%;
 
     background:
     linear-gradient(
-    120deg,
-    rgba(255,255,255,0.09),
-    transparent 20%,
-    transparent 72%,
-    rgba(255,255,255,0.04)
+    to right,
+    transparent,
+    rgba(255,255,255,0.08),
+    transparent
     );
 
-    pointer-events:none;
+    transform:
+    rotate(18deg);
+
+    animation:
+    glassSweep 8s linear infinite;
 }
 
 .clock::after{
@@ -148,19 +224,31 @@ body::after{
 
     position:absolute;
 
-    inset:0;
+    inset:-80px;
 
-    border-radius:30px;
+    z-index:-1;
 
     background:
-    linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.04),
-    transparent 30%,
-    rgba(0,0,0,0.18)
+    radial-gradient(
+    circle at center,
+    rgba(255,120,0,0.08),
+    transparent 70%
     );
 
-    pointer-events:none;
+    filter:blur(50px);
+
+    opacity:0.7;
+}
+
+@keyframes glassSweep{
+
+    from{
+        left:-40%;
+    }
+
+    to{
+        left:140%;
+    }
 }
 
 .tube{
@@ -176,29 +264,29 @@ body::after{
     justify-content:center;
     align-items:center;
 
-    border-radius:22px;
+    border-radius:24px;
 
     background:
     linear-gradient(
     to bottom,
-    rgba(255,255,255,0.22),
-    rgba(255,255,255,0.02)
+    rgba(255,255,255,0.09),
+    rgba(255,255,255,0.015)
     );
 
     border:
-    1px solid rgba(255,255,255,0.16);
+    1px solid rgba(255,255,255,0.12);
 
-    backdrop-filter:blur(12px);
+    backdrop-filter:
+    blur(18px);
 
     box-shadow:
-    inset 0 0 35px rgba(255,255,255,0.08),
-    inset 0 -25px 35px rgba(0,0,0,0.18),
-    0 0 28px rgba(255,120,0,0.16),
-    0 18px 28px rgba(0,0,0,0.45);
+    inset 0 0 18px rgba(255,255,255,0.12),
+    inset 0 -20px 50px rgba(0,0,0,0.22),
+    0 0 25px rgba(255,120,0,0.06);
 
     transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .tube:hover{
@@ -208,9 +296,7 @@ body::after{
     scale(1.03);
 
     box-shadow:
-    inset 0 0 35px rgba(255,255,255,0.14),
-    0 0 55px rgba(255,130,0,0.35),
-    0 28px 40px rgba(0,0,0,0.48);
+    0 0 50px rgba(255,120,0,0.25);
 }
 
 .tube::before{
@@ -219,45 +305,24 @@ body::after{
 
     position:absolute;
 
-    left:10px;
-    top:10px;
+    top:8%;
 
-    width:20px;
-    height:145px;
+    left:12%;
 
-    border-radius:30px;
+    width:28%;
+
+    height:42%;
+
+    border-radius:50%;
 
     background:
     linear-gradient(
     to bottom,
     rgba(255,255,255,0.34),
-    rgba(255,255,255,0.01)
-    );
-
-    filter:blur(4px);
-}
-
-.tube::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:-80%;
-
-    width:60%;
-    height:100%;
-
-    background:
-    linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,0.09),
     transparent
     );
 
-    transform:skewX(-20deg);
+    filter:blur(5px);
 }
 
 .digit{
@@ -307,6 +372,9 @@ body::after{
     text-align:center;
 
     line-height:1.9;
+
+    transition:
+    opacity 0.4s ease;
 }
 
 .timezone{
@@ -321,11 +389,6 @@ body::after{
     letter-spacing:4px;
 
     font-family:monospace;
-
-    text-transform:uppercase;
-
-    text-shadow:
-    0 0 10px rgba(255,120,0,0.28);
 }
 
 .creator{
@@ -392,4 +455,63 @@ body::after{
     20%,24%,55%{
         opacity:0.86;
     }
+}
+
+#fullscreenBtn,
+#toggleCredits{
+
+    position:fixed;
+
+    bottom:20px;
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    letter-spacing:2px;
+
+    cursor:pointer;
+
+    z-index:999;
+
+    transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    background 0.3s ease;
+}
+
+#fullscreenBtn{
+
+    right:20px;
+}
+
+#toggleCredits{
+
+    left:20px;
+}
+
+#fullscreenBtn:hover,
+#toggleCredits:hover{
+
+    background:
+    rgba(255,255,255,0.16);
+}
+
+.ui-hidden{
+
+    opacity:0 !important;
+
+    pointer-events:none;
+
+    transform:
+    translateY(20px);
 }
