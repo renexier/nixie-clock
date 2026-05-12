@@ -41,7 +41,7 @@ function setDigit(id,value){
         el.animate([
 
             {
-                opacity:0.25,
+                opacity:0.2,
                 transform:"scale(1.08)"
             },
 
@@ -72,13 +72,10 @@ Intl.DateTimeFormat()
 .resolvedOptions()
 .timeZone;
 
-const readableZone =
+timezoneElement.innerText =
 zone
 .replace("_"," ")
 .replace("/"," • ");
-
-timezoneElement.innerText =
-readableZone;
 
 document.addEventListener(
 "mousemove",
@@ -104,10 +101,10 @@ e=>{
     document.getElementById("clock");
 
     const rotateX =
-    (e.clientY/window.innerHeight - 0.5) * -10;
+    (e.clientY/window.innerHeight - 0.5) * -8;
 
     const rotateY =
-    (e.clientX/window.innerWidth - 0.5) * 10;
+    (e.clientX/window.innerWidth - 0.5) * 8;
 
     clock.style.transform =
     `
@@ -116,7 +113,7 @@ e=>{
     `;
 });
 
-for(let i=0;i<42;i++){
+for(let i=0;i<45;i++){
 
     const p =
     document.createElement("div");
@@ -169,7 +166,7 @@ function tick(){
 
     osc.frequency.value=850;
 
-    gain.gain.value=0.01;
+    gain.gain.value=0.008;
 
     osc.connect(gain);
 
@@ -182,66 +179,93 @@ function tick(){
 
 setInterval(tick,1000);
 
-document.addEventListener(
-"contextmenu",
-e=>{
+const fullscreenBtn =
+document.getElementById(
+"fullscreenBtn"
+);
 
-    e.preventDefault();
-});
+fullscreenBtn.onclick = ()=>{
 
-document.addEventListener(
-"keydown",
-e=>{
+    if(!document.fullscreenElement){
 
-    if(
+        document.documentElement
+        .requestFullscreen();
 
-        e.key === "F12" ||
+    }else{
 
-        (e.ctrlKey && e.shiftKey &&
-        ["I","J","C"].includes(
-        e.key.toUpperCase()
-        )) ||
-
-        (e.ctrlKey &&
-        ["U","S","C","+","-","=","_"]
-        .includes(
-        e.key.toUpperCase()
-        ))
-
-    ){
-
-        e.preventDefault();
+        document.exitFullscreen();
     }
-});
+};
+
+const toggleCredits =
+document.getElementById(
+"toggleCredits"
+);
+
+const footer =
+document.getElementById(
+"footer"
+);
+
+let creditsVisible = true;
+
+toggleCredits.onclick = ()=>{
+
+    creditsVisible =
+    !creditsVisible;
+
+    footer.style.opacity =
+    creditsVisible ? "1" : "0";
+
+    toggleCredits.innerText =
+    creditsVisible
+    ? "HIDE INFO"
+    : "SHOW INFO";
+};
+
+let inactivityTimer;
+
+function showUI(){
+
+    fullscreenBtn.classList.remove(
+    "ui-hidden"
+    );
+
+    toggleCredits.classList.remove(
+    "ui-hidden"
+    );
+
+    clearTimeout(
+    inactivityTimer
+    );
+
+    inactivityTimer =
+    setTimeout(()=>{
+
+        fullscreenBtn.classList.add(
+        "ui-hidden"
+        );
+
+        toggleCredits.classList.add(
+        "ui-hidden"
+        );
+
+    },2000);
+}
 
 document.addEventListener(
-"wheel",
-e=>{
+"mousemove",
+showUI
+);
 
-    if(e.ctrlKey){
+document.addEventListener(
+"touchstart",
+showUI
+);
 
-        e.preventDefault();
-    }
+document.addEventListener(
+"click",
+showUI
+);
 
-},
-{
-    passive:false
-});
-
-setInterval(()=>{
-
-    if(
-
-        window.outerWidth -
-        window.innerWidth > 160 ||
-
-        window.outerHeight -
-        window.innerHeight > 160
-
-    ){
-
-        document.body.innerHTML = "";
-
-    }
-
-},1000);
+showUI();
